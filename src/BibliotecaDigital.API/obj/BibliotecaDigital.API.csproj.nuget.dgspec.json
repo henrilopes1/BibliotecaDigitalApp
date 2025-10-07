@@ -1,0 +1,228 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.API\\BibliotecaDigital.API.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.API\\BibliotecaDigital.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.API\\BibliotecaDigital.API.csproj",
+        "projectName": "BibliotecaDigital.API",
+        "projectPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.API\\BibliotecaDigital.API.csproj",
+        "packagesPath": "C:\\Users\\Henri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.API\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Henri\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Data\\BibliotecaDigital.Data.csproj": {
+                "projectPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Data\\BibliotecaDigital.Data.csproj"
+              },
+              "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\BibliotecaDigital.Domain.csproj": {
+                "projectPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\BibliotecaDigital.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Oracle.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.21.121, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Data\\BibliotecaDigital.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Data\\BibliotecaDigital.Data.csproj",
+        "projectName": "BibliotecaDigital.Data",
+        "projectPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Data\\BibliotecaDigital.Data.csproj",
+        "packagesPath": "C:\\Users\\Henri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Henri\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\BibliotecaDigital.Domain.csproj": {
+                "projectPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\BibliotecaDigital.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Oracle.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.21.121, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\BibliotecaDigital.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\BibliotecaDigital.Domain.csproj",
+        "projectName": "BibliotecaDigital.Domain",
+        "projectPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\BibliotecaDigital.Domain.csproj",
+        "packagesPath": "C:\\Users\\Henri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Henri\\OneDrive - SENAC - SP\\Área de Trabalho\\C# Checkpoint\\BibliotecaDigitalApp\\src\\BibliotecaDigital.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Henri\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
