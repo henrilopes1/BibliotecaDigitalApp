@@ -1,0 +1,35 @@
+### Teste do endpoint PesquisarLivros - Busca local (livros existentes)
+GET http://localhost:5219/api/livros/pesquisar/Dom
+Accept: application/json
+
+###
+
+### Teste do endpoint PesquisarLivros - Busca externa (Google Books)
+GET http://localhost:5219/api/livros/pesquisar/python
+Accept: application/json
+
+###
+
+### Teste do endpoint PesquisarLivros - Busca por Clean Code
+GET http://localhost:5219/api/livros/pesquisar/Clean Code
+Accept: application/json
+
+###
+
+### Teste do endpoint PesquisarLivros - Busca por JavaScript
+GET http://localhost:5219/api/livros/pesquisar/JavaScript
+Accept: application/json
+
+###
+
+### Teste com termo inválido
+GET http://localhost:5219/api/livros/pesquisar/
+Accept: application/json
+
+###
+
+### Teste do endpoint ExportarCSV - Exporta todos os livros em formato CSV
+GET http://localhost:5219/api/livros/exportar-csv
+Accept: text/csv
+
+###

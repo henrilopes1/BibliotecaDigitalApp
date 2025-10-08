@@ -148,4 +148,50 @@ namespace BibliotecaDigital.API.DTOs
         public string Nome { get; set; } = string.Empty;
         public string? Nacionalidade { get; set; }
     }
+
+    // DTOs para pesquisa externa (Google Books)
+    public class LivroPesquisaDTO
+    {
+        public string Titulo { get; set; } = string.Empty;
+        public List<string> Autores { get; set; } = new();
+        public string? ISBN { get; set; }
+        public int? AnoPublicacao { get; set; }
+        public string? Editora { get; set; }
+        public string? Sinopse { get; set; }
+        public string? CapaUrl { get; set; }
+        public string? Fonte { get; set; } = "Google Books";
+    }
+
+    // DTOs para resposta da API do Google Books
+    public class GoogleBooksResponse
+    {
+        public List<GoogleBookItem> Items { get; set; } = new();
+    }
+
+    public class GoogleBookItem
+    {
+        public GoogleBookVolumeInfo VolumeInfo { get; set; } = new();
+    }
+
+    public class GoogleBookVolumeInfo
+    {
+        public string Title { get; set; } = string.Empty;
+        public List<string> Authors { get; set; } = new();
+        public string? Publisher { get; set; }
+        public string? PublishedDate { get; set; }
+        public string? Description { get; set; }
+        public List<GoogleBookIndustryIdentifier> IndustryIdentifiers { get; set; } = new();
+        public GoogleBookImageLinks? ImageLinks { get; set; }
+    }
+
+    public class GoogleBookIndustryIdentifier
+    {
+        public string Type { get; set; } = string.Empty;
+        public string Identifier { get; set; } = string.Empty;
+    }
+
+    public class GoogleBookImageLinks
+    {
+        public string? Thumbnail { get; set; }
+    }
 }

@@ -23,6 +23,9 @@ builder.Services.AddScoped<IAutorRepository, AutorRepository>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
 
+// HTTP Client Factory
+builder.Services.AddHttpClient();
+
 // CORS Configuration
 builder.Services.AddCors(options =>
 {

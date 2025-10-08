@@ -9,3 +9,4 @@ C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaD
 C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Domain\obj\Debug\net8.0\refint\BibliotecaDigital.Domain.dll
 C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Domain\obj\Debug\net8.0\BibliotecaDigital.Domain.pdb
 C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Domain\obj\Debug\net8.0\ref\BibliotecaDigital.Domain.dll
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Domain\obj\Debug\net8.0\BibliotecaDigital.Domain.sourcelink.json

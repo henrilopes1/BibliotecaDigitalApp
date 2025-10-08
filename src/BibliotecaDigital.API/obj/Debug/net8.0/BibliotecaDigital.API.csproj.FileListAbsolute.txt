@@ -60,3 +60,4 @@ C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaD
 C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.API\obj\Debug\net8.0\BibliotecaDigital.API.pdb
 C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.API\obj\Debug\net8.0\BibliotecaDigital.API.genruntimeconfig.cache
 C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.API\obj\Debug\net8.0\ref\BibliotecaDigital.API.dll
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.API\obj\Debug\net8.0\BibliotecaDigital.API.sourcelink.json
