@@ -422,5 +422,75 @@ namespace BibliotecaDigital.API.Controllers
                 DataAtualizacao = livro.DataAtualizacao
             };
         }
+
+        /// <summary>
+        /// Busca livros em API externa (OpenLibrary)
+        /// </summary>
+        [HttpGet("buscar-externo/{titulo}")]
+        public async Task<ActionResult<object>> BuscarLivrosExternos(string titulo)
+        {
+            try
+            {
+                var httpClient = _httpClientFactory.CreateClient();
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                
+                var url = $"https://openlibrary.org/search.json?title={Uri.EscapeDataString(titulo)}&limit=5";
+                var response = await httpClient.GetAsync(url);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var data = JsonSerializer.Deserialize<JsonElement>(jsonContent);
+                    
+                    var livros = new List<object>();
+                    
+                    if (data.TryGetProperty("docs", out var docs) && docs.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var doc in docs.EnumerateArray().Take(5))
+                        {
+                            var livro = new
+                            {
+                                Titulo = doc.TryGetProperty("title", out var titleProp) ? titleProp.GetString() : "N/A",
+                                Autor = doc.TryGetProperty("author_name", out var authorProp) && authorProp.ValueKind == JsonValueKind.Array && authorProp.GetArrayLength() > 0
+                                    ? authorProp[0].GetString() : "N/A",
+                                AnoPublicacao = doc.TryGetProperty("first_publish_year", out var yearProp) ? yearProp.GetInt32() : (int?)null,
+                                ISBN = doc.TryGetProperty("isbn", out var isbnProp) && isbnProp.ValueKind == JsonValueKind.Array && isbnProp.GetArrayLength() > 0
+                                    ? isbnProp[0].GetString() : "N/A",
+                                Editora = doc.TryGetProperty("publisher", out var pubProp) && pubProp.ValueKind == JsonValueKind.Array && pubProp.GetArrayLength() > 0
+                                    ? pubProp[0].GetString() : "N/A",
+                                NumeroEdicao = doc.TryGetProperty("edition_count", out var editionProp) ? editionProp.GetInt32() : (int?)null,
+                                Fonte = "OpenLibrary"
+                            };
+                            livros.Add(livro);
+                        }
+                    }
+                    
+                    return Ok(new { 
+                        Sucesso = true, 
+                        Total = livros.Count, 
+                        Livros = livros,
+                        Fonte = "API OpenLibrary"
+                    });
+                }
+                else
+                {
+                    return BadRequest(new { 
+                        Erro = "Erro ao buscar livros na API externa", 
+                        Status = response.StatusCode 
+                    });
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                return StatusCode(408, new { Erro = "Timeout na consulta à API externa" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { 
+                    Erro = "Erro interno na busca externa", 
+                    Detalhe = ex.Message 
+                });
+            }
+        }
     }
 }

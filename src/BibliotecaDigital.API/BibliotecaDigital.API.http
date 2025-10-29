@@ -1,6 +1,0 @@
-@BibliotecaDigital.API_HostAddress = http://localhost:5219
-
-GET {{BibliotecaDigital.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

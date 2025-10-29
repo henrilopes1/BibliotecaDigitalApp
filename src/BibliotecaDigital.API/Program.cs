@@ -1,6 +1,7 @@
 using BibliotecaDigital.Data.Context;
 using BibliotecaDigital.Data.Repositories;
 using BibliotecaDigital.Domain.Interfaces;
+using BibliotecaDigital.API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,11 +12,31 @@ builder.Services.AddControllers();
 // Entity Framework Configuration
 builder.Services.AddDbContext<BibliotecaDigitalContext>(options =>
 {
-    // Usar InMemory Database para desenvolvimento
-    options.UseInMemoryDatabase("BibliotecaDigitalDB");
+    var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
     
-    // Para Oracle Database (quando credenciais da FIAP estiverem disponíveis):
-    // options.UseOracle(builder.Configuration.GetConnectionString("Oracle"));
+    if (databaseProvider == "Oracle")
+    {
+        // Usar Oracle Database
+        var connectionString = builder.Configuration.GetConnectionString("OracleConnection");
+        options.UseOracle(connectionString);
+        
+        if (builder.Environment.IsDevelopment())
+        {
+            options.EnableSensitiveDataLogging();
+            options.EnableDetailedErrors();
+        }
+    }
+    else
+    {
+        // Fallback para InMemory Database
+        options.UseInMemoryDatabase("BibliotecaDigitalDB");
+        
+        if (builder.Environment.IsDevelopment())
+        {
+            options.EnableSensitiveDataLogging();
+            options.EnableDetailedErrors();
+        }
+    }
 });
 
 // Dependency Injection - Repositories
@@ -23,7 +44,13 @@ builder.Services.AddScoped<IAutorRepository, AutorRepository>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
 
-// HTTP Client Factory
+// Dependency Injection - External API Services (SDK Oficial - R4)
+builder.Services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
+builder.Services.AddScoped<IOpenLibraryService, OpenLibraryService>();
+builder.Services.AddScoped<ExternalApiService>();
+builder.Services.AddScoped<LivroEnriquecimentoService>();
+
+// HTTP Client Factory (HTTP Integration - R4)
 builder.Services.AddHttpClient();
 
 // CORS Configuration

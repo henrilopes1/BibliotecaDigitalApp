@@ -1,0 +1,204 @@
+using BibliotecaDigital.API.DTOs;
+using BibliotecaDigital.API.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BibliotecaDigital.API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class EstatisticasController : ControllerBase
+    {
+        private readonly IEstatisticasService _estatisticasService;
+        private readonly ILogger<EstatisticasController> _logger;
+
+        public EstatisticasController(IEstatisticasService estatisticasService, ILogger<EstatisticasController> logger)
+        {
+            _estatisticasService = estatisticasService;
+            _logger = logger;
+        }
+
+        /// <summary>
+        /// ENDPOINT NÃO TRIVIAL 1: Relatório Completo com Agregação de Dados Internos + APIs Externas
+        /// 
+        /// Este endpoint demonstra:
+        /// - Agregação complexa de dados internos (estatísticas da biblioteca)
+        /// - Integração com APIs externas (cotação do dólar + informações de tempo)
+        /// - Processamento paralelo de chamadas externas
+        /// - Fallback em caso de falha das APIs externas
+        /// 
+        /// Justificativa: Combina dados internos do sistema com informações externas relevantes,
+        /// criando um relatório executivo completo que pode ser usado para tomada de decisões
+        /// administrativas, incluindo contexto econômico atual.
+        /// </summary>
+        [HttpGet("relatorio-completo")]
+        [ProducesResponseType(typeof(RelatorioCompletoDto), 200)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<RelatorioCompletoDto>> GetRelatorioCompleto()
+        {
+            try
+            {
+                _logger.LogInformation("Iniciando geração de relatório completo");
+                
+                var relatorio = await _estatisticasService.GetRelatorioCompletoAsync();
+                
+                _logger.LogInformation("Relatório completo gerado com sucesso");
+                return Ok(relatorio);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao gerar relatório completo");
+                return StatusCode(500, new { 
+                    error = "Erro interno do servidor", 
+                    message = "Não foi possível gerar o relatório completo",
+                    details = ex.Message 
+                });
+            }
+        }
+
+        /// <summary>
+        /// ENDPOINT NÃO TRIVIAL 2: Dashboard Avançado com Filtros, Paginação e Ordenação
+        /// 
+        /// Este endpoint demonstra:
+        /// - Filtros múltiplos e complexos (data, autor, título, status)
+        /// - Paginação com controle de tamanho de página
+        /// - Ordenação dinâmica em múltiplos campos
+        /// - Validação de negócio elaborada nos parâmetros
+        /// - Agregação de dados com diferentes métricas
+        /// - Alertas baseados em regras de negócio
+        /// 
+        /// Justificativa: Implementa funcionalidades avançadas de consulta que são essenciais
+        /// em sistemas reais, demonstrando capacidade de criar APIs flexíveis e performáticas
+        /// com múltiplas opções de filtragem e apresentação de dados.
+        /// </summary>
+        [HttpGet("dashboard")]
+        [ProducesResponseType(typeof(DashboardDto), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<DashboardDto>> GetDashboard([FromQuery] FiltrosDashboardDto filtros)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarning("Dados de entrada inválidos para dashboard: {Errors}", 
+                        string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
+                    return BadRequest(ModelState);
+                }
+
+                // Validação de negócio elaborada
+                if (filtros.DataInicio.HasValue && filtros.DataFim.HasValue && filtros.DataInicio > filtros.DataFim)
+                {
+                    _logger.LogWarning("Data de início posterior à data fim: {DataInicio} > {DataFim}", 
+                        filtros.DataInicio, filtros.DataFim);
+                    return UnprocessableEntity(new { 
+                        error = "Validação de negócio falhou", 
+                        message = "Data de início não pode ser posterior à data fim" 
+                    });
+                }
+
+                if (filtros.DataInicio.HasValue && filtros.DataInicio > DateTime.UtcNow)
+                {
+                    _logger.LogWarning("Data de início no futuro: {DataInicio}", filtros.DataInicio);
+                    return UnprocessableEntity(new { 
+                        error = "Validação de negócio falhou", 
+                        message = "Data de início não pode ser no futuro" 
+                    });
+                }
+
+                // Conflito: se tentar filtrar apenas por devolvidos E apenas por ativos ao mesmo tempo
+                if (!filtros.IncluirAtivos && !filtros.IncluirDevolvidos && !filtros.IncluirVencidos)
+                {
+                    _logger.LogWarning("Nenhum tipo de empréstimo selecionado para exibição");
+                    return Conflict(new { 
+                        error = "Conflito nos filtros", 
+                        message = "Pelo menos um tipo de empréstimo deve ser incluído (ativos, devolvidos ou vencidos)" 
+                    });
+                }
+
+                _logger.LogInformation("Gerando dashboard com filtros válidos");
+                
+                var dashboard = await _estatisticasService.GetDashboardAsync(filtros);
+                
+                _logger.LogInformation("Dashboard gerado com sucesso - Página {Pagina} de {TotalPaginas}", 
+                    dashboard.PaginaAtual, dashboard.TotalPaginas);
+                
+                return Ok(dashboard);
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogWarning(ex, "Argumentos inválidos fornecidos");
+                return BadRequest(new { 
+                    error = "Dados inválidos", 
+                    message = ex.Message 
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao gerar dashboard");
+                return StatusCode(500, new { 
+                    error = "Erro interno do servidor", 
+                    message = "Não foi possível gerar o dashboard",
+                    details = ex.Message 
+                });
+            }
+        }
+
+        /// <summary>
+        /// Obtém estatísticas básicas do sistema
+        /// </summary>
+        [HttpGet("resumo")]
+        [ProducesResponseType(typeof(EstatisticasDto), 200)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<EstatisticasDto>> GetEstatisticas()
+        {
+            try
+            {
+                _logger.LogInformation("Buscando estatísticas básicas");
+                
+                var estatisticas = await _estatisticasService.GetEstatisticasAsync();
+                
+                _logger.LogInformation("Estatísticas obtidas com sucesso");
+                return Ok(estatisticas);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar estatísticas");
+                return StatusCode(500, new { 
+                    error = "Erro interno do servidor", 
+                    message = "Não foi possível obter as estatísticas" 
+                });
+            }
+        }
+
+        /// <summary>
+        /// Endpoint para testar diferentes status codes - apenas para demonstração
+        /// </summary>
+        [HttpPost("teste-status/{codigo}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(409)]
+        [ProducesResponseType(422)]
+        [ProducesResponseType(500)]
+        public IActionResult TesteStatusCodes(int codigo, [FromBody] object? dados = null)
+        {
+            _logger.LogInformation("Testando status code: {Codigo}", codigo);
+
+            return codigo switch
+            {
+                200 => Ok(new { message = "Sucesso - OK", code = 200, data = dados }),
+                201 => Created("/api/estatisticas/teste", new { message = "Criado com sucesso", code = 201, data = dados }),
+                204 => NoContent(),
+                400 => BadRequest(new { error = "Dados inválidos", message = "Requisição malformada", code = 400 }),
+                404 => NotFound(new { error = "Não encontrado", message = "Recurso solicitado não existe", code = 404 }),
+                409 => Conflict(new { error = "Conflito", message = "Recurso já existe ou há conflito de estado", code = 409 }),
+                422 => UnprocessableEntity(new { error = "Entidade não processável", message = "Dados válidos mas regra de negócio falhou", code = 422 }),
+                500 => StatusCode(500, new { error = "Erro interno", message = "Erro interno do servidor", code = 500 }),
+                _ => BadRequest(new { error = "Código inválido", message = "Código de status não suportado", supportedCodes = new[] { 200, 201, 204, 400, 404, 409, 422, 500 } })
+            };
+        }
+    }
+}
