@@ -19,7 +19,6 @@ namespace BibliotecaDigital.Data.Repositories
             return await _context.Livros
                 .Include(l => l.Autor)
                 .ThenInclude(a => a.Perfil)
-                .Where(l => l.Ativo)
                 .OrderBy(l => l.Titulo)
                 .ToListAsync();
         }
@@ -62,7 +61,6 @@ namespace BibliotecaDigital.Data.Repositories
             if (livro == null)
                 return false;
 
-            // Soft delete - apenas marca como inativo
             livro.Ativo = false;
             livro.DataAtualizacao = DateTime.UtcNow;
             await _context.SaveChangesAsync();
@@ -78,7 +76,7 @@ namespace BibliotecaDigital.Data.Repositories
         {
             return await _context.Livros
                 .Include(l => l.Autor)
-                .Where(l => l.Titulo.Contains(titulo) && l.Ativo)
+                .Where(l => l.Titulo.Contains(titulo))
                 .OrderBy(l => l.Titulo)
                 .ToListAsync();
         }
@@ -87,7 +85,7 @@ namespace BibliotecaDigital.Data.Repositories
         {
             return await _context.Livros
                 .Include(l => l.Autor)
-                .Where(l => l.AutorId == autorId && l.Ativo)
+                .Where(l => l.AutorId == autorId)
                 .OrderBy(l => l.Titulo)
                 .ToListAsync();
         }
@@ -96,7 +94,7 @@ namespace BibliotecaDigital.Data.Repositories
         {
             return await _context.Livros
                 .Include(l => l.Autor)
-                .Where(l => l.EstoqueDisponivel > 0 && l.Ativo)
+                .Where(l => l.EstoqueDisponivel > 0)
                 .OrderBy(l => l.Titulo)
                 .ToListAsync();
         }

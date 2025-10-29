@@ -14,6 +14,13 @@ out/
 .vscode/
 *.code-workspace
 
+# Arquivos de configuração sensíveis (IMPORTANTE: Não commitar credenciais)
+appsettings.json
+appsettings.*.json
+!appsettings.Example.json
+*.config
+*.secrets
+
 # Build Results
 [Dd]ebug/
 [Dd]ebugPublic/

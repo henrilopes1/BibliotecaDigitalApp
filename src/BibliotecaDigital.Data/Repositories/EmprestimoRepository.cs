@@ -45,7 +45,7 @@ namespace BibliotecaDigital.Data.Repositories
             emprestimo.DataEmprestimo = DateTime.UtcNow;
             emprestimo.DataDevolucaoPrevista = DateTime.UtcNow.AddDays(14); // 14 dias para devolução
             emprestimo.Status = "Ativo";
-            emprestimo.Devolvido = false;
+            // Devolvido é calculado automaticamente com base em DataDevolucaoReal
 
             await _context.Emprestimos.AddAsync(emprestimo);
 
@@ -101,7 +101,7 @@ namespace BibliotecaDigital.Data.Repositories
             return await _context.Emprestimos
                 .Include(e => e.Livro)
                 .ThenInclude(l => l.Autor)
-                .Where(e => e.CpfUsuario == cpfUsuario && !e.Devolvido)
+                .Where(e => e.CpfUsuario == cpfUsuario && e.DataDevolucaoReal == null) // Não devolvido
                 .OrderByDescending(e => e.DataEmprestimo)
                 .ToListAsync();
         }
@@ -112,7 +112,7 @@ namespace BibliotecaDigital.Data.Repositories
             return await _context.Emprestimos
                 .Include(e => e.Livro)
                 .ThenInclude(l => l.Autor)
-                .Where(e => !e.Devolvido && e.DataDevolucaoPrevista.Date < hoje)
+                .Where(e => e.DataDevolucaoReal == null && e.DataDevolucaoPrevista.Date < hoje) // Não devolvido e vencido
                 .OrderBy(e => e.DataDevolucaoPrevista)
                 .ToListAsync();
         }
@@ -135,8 +135,7 @@ namespace BibliotecaDigital.Data.Repositories
             if (emprestimo == null || emprestimo.Devolvido)
                 return false;
 
-            emprestimo.DataDevolucaoReal = dataDevolucao;
-            emprestimo.Devolvido = true;
+            emprestimo.DataDevolucaoReal = dataDevolucao; // Define data = Devolvido fica true automaticamente
             emprestimo.Status = "Devolvido";
             emprestimo.DataAtualizacao = DateTime.UtcNow;
 

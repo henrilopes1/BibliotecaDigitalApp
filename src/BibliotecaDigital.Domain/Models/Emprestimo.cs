@@ -18,7 +18,8 @@ namespace BibliotecaDigital.Domain.Models
         [MaxLength(100)]
         public string NomeUsuario { get; set; } = string.Empty;
         
-        [Required]
+        // CPF não existe na tabela do banco - apenas no modelo
+        [NotMapped]
         [MaxLength(14)]
         public string CpfUsuario { get; set; } = string.Empty;
         
@@ -37,7 +38,9 @@ namespace BibliotecaDigital.Domain.Models
         
         public DateTime? DataDevolucaoReal { get; set; }
         
-        public bool Devolvido { get; set; } = false;
+        // Propriedade calculada - não mapeada para o banco
+        [NotMapped]
+        public bool Devolvido => DataDevolucaoReal.HasValue;
         
         [Column(TypeName = "decimal(10,2)")]
         public decimal? MultaAtraso { get; set; }

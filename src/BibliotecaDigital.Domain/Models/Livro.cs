@@ -29,6 +29,7 @@ namespace BibliotecaDigital.Domain.Models
         [MaxLength(50)]
         public string? Genero { get; set; }
         
+        [NotMapped] // Não existe no banco
         public int? NumeroEdicao { get; set; }
         
         public int? NumeroPaginas { get; set; }
@@ -45,8 +46,11 @@ namespace BibliotecaDigital.Domain.Models
         [Column(TypeName = "decimal(10,2)")]
         public decimal? Preco { get; set; }
         
+        // Banco tem apenas coluna ESTOQUE (estoque disponível)
         public int EstoqueDisponivel { get; set; }
         
+        // EstoqueTotal não existe no banco - pode ser uma propriedade calculada ou não mapeada
+        [NotMapped]
         public int EstoqueTotal { get; set; }
         
         public bool Ativo { get; set; } = true;

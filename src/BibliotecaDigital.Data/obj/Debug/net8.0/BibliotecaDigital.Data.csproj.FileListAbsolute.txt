@@ -1,0 +1,16 @@
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\bin\Debug\net8.0\BibliotecaDigital.Data.deps.json
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\bin\Debug\net8.0\BibliotecaDigital.Data.dll
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\bin\Debug\net8.0\BibliotecaDigital.Data.pdb
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\bin\Debug\net8.0\BibliotecaDigital.Domain.dll
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\bin\Debug\net8.0\BibliotecaDigital.Domain.pdb
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.csproj.AssemblyReference.cache
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.AssemblyInfoInputs.cache
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.AssemblyInfo.cs
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.csproj.CoreCompileInputs.cache
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.sourcelink.json
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\Bibliote.BB197EC4.Up2Date
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.dll
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\refint\BibliotecaDigital.Data.dll
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\BibliotecaDigital.Data.pdb
+C:\Users\Henri\OneDrive - SENAC - SP\Área de Trabalho\C# Checkpoint\BibliotecaDigitalApp\src\BibliotecaDigital.Data\obj\Debug\net8.0\ref\BibliotecaDigital.Data.dll

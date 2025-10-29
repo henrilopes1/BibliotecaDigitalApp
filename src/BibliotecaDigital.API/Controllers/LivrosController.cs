@@ -14,12 +14,18 @@ namespace BibliotecaDigital.API.Controllers
         private readonly ILivroRepository _livroRepository;
         private readonly IAutorRepository _autorRepository;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ILogger<LivrosController> _logger;
 
-        public LivrosController(ILivroRepository livroRepository, IAutorRepository autorRepository, IHttpClientFactory httpClientFactory)
+        public LivrosController(
+            ILivroRepository livroRepository, 
+            IAutorRepository autorRepository, 
+            IHttpClientFactory httpClientFactory,
+            ILogger<LivrosController> logger)
         {
             _livroRepository = livroRepository;
             _autorRepository = autorRepository;
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
         }
 
         /// <summary>
@@ -28,8 +34,13 @@ namespace BibliotecaDigital.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LivroDTO>>> GetAll()
         {
+            _logger.LogInformation("📚 Buscando todos os livros cadastrados");
+            
             var livros = await _livroRepository.GetAllAsync();
-            var livrosDTO = livros.Select(MapToDTO);
+            var livrosDTO = livros.Select(MapToDTO).ToList();
+            
+            _logger.LogInformation("✅ Retornando {Count} livros", livrosDTO.Count);
+            
             return Ok(livrosDTO);
         }
 
@@ -39,10 +50,18 @@ namespace BibliotecaDigital.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<LivroDTO>> GetById(int id)
         {
+            _logger.LogInformation("🔍 Buscando livro com ID: {LivroId}", id);
+            
             var livro = await _livroRepository.GetByIdAsync(id);
+            
             if (livro == null)
+            {
+                _logger.LogWarning("⚠️ Livro com ID {LivroId} não encontrado", id);
                 return NotFound($"Livro com ID {id} não encontrado.");
+            }
 
+            _logger.LogInformation("✅ Livro '{Titulo}' encontrado com sucesso", livro.Titulo);
+            
             return Ok(MapToDTO(livro));
         }
 
@@ -95,7 +114,6 @@ namespace BibliotecaDigital.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Verificar se o autor existe
             var autorExiste = await _autorRepository.ExistsAsync(createLivroDTO.AutorId);
             if (!autorExiste)
                 return BadRequest($"Autor com ID {createLivroDTO.AutorId} não encontrado.");
@@ -138,7 +156,6 @@ namespace BibliotecaDigital.API.Controllers
             if (livroExistente == null)
                 return NotFound($"Livro com ID {id} não encontrado.");
 
-            // Verificar se o autor existe
             var autorExiste = await _autorRepository.ExistsAsync(updateLivroDTO.AutorId);
             if (!autorExiste)
                 return BadRequest($"Autor com ID {updateLivroDTO.AutorId} não encontrado.");

@@ -2,21 +2,23 @@ using BibliotecaDigital.Data.Context;
 using BibliotecaDigital.Data.Repositories;
 using BibliotecaDigital.Domain.Interfaces;
 using BibliotecaDigital.API.Services;
+using BibliotecaDigital.API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 builder.Services.AddControllers();
 
-// Entity Framework Configuration
 builder.Services.AddDbContext<BibliotecaDigitalContext>(options =>
 {
     var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
     
     if (databaseProvider == "Oracle")
     {
-        // Usar Oracle Database
         var connectionString = builder.Configuration.GetConnectionString("OracleConnection");
         options.UseOracle(connectionString);
         
@@ -28,7 +30,6 @@ builder.Services.AddDbContext<BibliotecaDigitalContext>(options =>
     }
     else
     {
-        // Fallback para InMemory Database
         options.UseInMemoryDatabase("BibliotecaDigitalDB");
         
         if (builder.Environment.IsDevelopment())
@@ -39,21 +40,17 @@ builder.Services.AddDbContext<BibliotecaDigitalContext>(options =>
     }
 });
 
-// Dependency Injection - Repositories
 builder.Services.AddScoped<IAutorRepository, AutorRepository>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
 
-// Dependency Injection - External API Services (SDK Oficial - R4)
 builder.Services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
 builder.Services.AddScoped<IOpenLibraryService, OpenLibraryService>();
 builder.Services.AddScoped<ExternalApiService>();
 builder.Services.AddScoped<LivroEnriquecimentoService>();
 
-// HTTP Client Factory (HTTP Integration - R4)
 builder.Services.AddHttpClient();
 
-// CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
@@ -64,7 +61,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Swagger Configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -77,22 +73,15 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Seed database in development
-if (app.Environment.IsDevelopment())
-{
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<BibliotecaDigitalContext>();
-    context.Database.EnsureCreated(); // Garante que o banco seja criado com seed data
-}
+app.UseGlobalExceptionHandler();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Biblioteca Digital API v1");
-        c.RoutePrefix = string.Empty; // Swagger na raiz
+        c.RoutePrefix = string.Empty;
     });
 }
 
@@ -103,5 +92,10 @@ app.UseCors("AllowAll");
 app.UseAuthorization();
 
 app.MapControllers();
+
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("🚀 Biblioteca Digital API iniciada com sucesso!");
+logger.LogInformation("📚 Swagger disponível em: http://localhost:5219/swagger");
+logger.LogInformation("🗄️  Banco de dados: {DatabaseProvider}", app.Configuration.GetValue<string>("DatabaseProvider"));
 
 app.Run();

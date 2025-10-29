@@ -19,114 +19,102 @@ namespace BibliotecaDigital.Data.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configuração da entidade Autor
             modelBuilder.Entity<Autor>(entity =>
             {
-                entity.ToTable("TB_AUTORES"); // Nome da tabela para Oracle
+                entity.ToTable("AUTORES");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("ID_AUTOR").ValueGeneratedOnAdd();
-                entity.Property(e => e.Nome).HasColumnName("NOME").IsRequired().HasMaxLength(100);
-                entity.Property(e => e.Email).HasColumnName("EMAIL").HasMaxLength(100);
-                entity.Property(e => e.DataNascimento).HasColumnName("DATA_NASCIMENTO");
-                entity.Property(e => e.Nacionalidade).HasColumnName("NACIONALIDADE").HasMaxLength(50);
-                entity.Property(e => e.DataCriacao).HasColumnName("DATA_CRIACAO").IsRequired();
-                entity.Property(e => e.DataAtualizacao).HasColumnName("DATA_ATUALIZACAO");
+                entity.Property(e => e.Id).HasColumnName("ID").ValueGeneratedOnAdd();
+                entity.Property(e => e.Nome).HasColumnName("NOME").IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Email).HasColumnName("EMAIL").HasMaxLength(255);
+                entity.Property(e => e.DataNascimento).HasColumnName("DATANASCIMENTO");
+                entity.Property(e => e.Nacionalidade).HasColumnName("NACIONALIDADE").HasMaxLength(100);
+                entity.Property(e => e.DataCriacao).HasColumnName("CREATEDAT").IsRequired();
+                entity.Property(e => e.DataAtualizacao).HasColumnName("UPDATEDAT");
 
-                // Relacionamento 1:1 com PerfilAutor
                 entity.HasOne(a => a.Perfil)
                       .WithOne(p => p.Autor)
                       .HasForeignKey<PerfilAutor>(p => p.AutorId)
                       .OnDelete(DeleteBehavior.Cascade);
 
-                // Relacionamento 1:N com Livro
                 entity.HasMany(a => a.Livros)
                       .WithOne(l => l.Autor)
                       .HasForeignKey(l => l.AutorId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Configuração da entidade PerfilAutor (Relação 1:1)
             modelBuilder.Entity<PerfilAutor>(entity =>
             {
-                entity.ToTable("TB_PERFIS_AUTOR");
+                entity.ToTable("PERFILAUTORES");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("ID_PERFIL").ValueGeneratedOnAdd();
-                entity.Property(e => e.AutorId).HasColumnName("ID_AUTOR").IsRequired();
-                entity.Property(e => e.Biografia).HasColumnName("BIOGRAFIA").HasMaxLength(2000);
-                entity.Property(e => e.FotoUrl).HasColumnName("FOTO_URL").HasMaxLength(500);
-                entity.Property(e => e.Website).HasColumnName("WEBSITE").HasMaxLength(200);
-                entity.Property(e => e.RedesSociais).HasColumnName("REDES_SOCIAIS").HasMaxLength(1000);
-                entity.Property(e => e.Premios).HasColumnName("PREMIOS").HasMaxLength(1000);
-                entity.Property(e => e.DataCriacao).HasColumnName("DATA_CRIACAO").IsRequired();
-                entity.Property(e => e.DataAtualizacao).HasColumnName("DATA_ATUALIZACAO");
+                entity.Property(e => e.Id).HasColumnName("ID").ValueGeneratedOnAdd();
+                entity.Property(e => e.AutorId).HasColumnName("AUTORID").IsRequired();
+                entity.Property(e => e.Biografia).HasColumnName("BIOGRAFIA");
+                entity.Property(e => e.FotoUrl).HasColumnName("FOTOURL").HasMaxLength(500);
+                entity.Property(e => e.Website).HasColumnName("WEBSITE").HasMaxLength(300);
+                entity.Property(e => e.RedesSociais).HasColumnName("REDESSOCIAIS").HasMaxLength(1000);
+                entity.Property(e => e.Premios).HasColumnName("PREMIOS").HasMaxLength(2000);
+                entity.Property(e => e.DataCriacao).HasColumnName("CREATEDAT").IsRequired();
+                entity.Property(e => e.DataAtualizacao).HasColumnName("UPDATEDAT");
                 
-                // Índice único para garantir relação 1:1
                 entity.HasIndex(e => e.AutorId).IsUnique();
             });
 
-            // Configuração da entidade Livro (Relação 1:N com Autor)
             modelBuilder.Entity<Livro>(entity =>
             {
-                entity.ToTable("TB_LIVROS");
+                entity.ToTable("LIVROS");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("ID_LIVRO").ValueGeneratedOnAdd();
-                entity.Property(e => e.Titulo).HasColumnName("TITULO").IsRequired().HasMaxLength(200);
-                entity.Property(e => e.AutorId).HasColumnName("ID_AUTOR").IsRequired();
-                entity.Property(e => e.ISBN).HasColumnName("ISBN").HasMaxLength(20);
-                entity.Property(e => e.AnoPublicacao).HasColumnName("ANO_PUBLICACAO");
-                entity.Property(e => e.Editora).HasColumnName("EDITORA").HasMaxLength(100);
-                entity.Property(e => e.Genero).HasColumnName("GENERO").HasMaxLength(50);
-                entity.Property(e => e.NumeroEdicao).HasColumnName("NUMERO_EDICAO");
-                entity.Property(e => e.NumeroPaginas).HasColumnName("NUMERO_PAGINAS");
-                entity.Property(e => e.Idioma).HasColumnName("IDIOMA").HasMaxLength(20);
-                entity.Property(e => e.Sinopse).HasColumnName("SINOPSE").HasMaxLength(2000);
-                entity.Property(e => e.CapaUrl).HasColumnName("CAPA_URL").HasMaxLength(500);
+                entity.Property(e => e.Id).HasColumnName("ID").ValueGeneratedOnAdd();
+                entity.Property(e => e.Titulo).HasColumnName("TITULO").IsRequired().HasMaxLength(300);
+                entity.Property(e => e.AutorId).HasColumnName("AUTORID").IsRequired();
+                entity.Property(e => e.ISBN).HasColumnName("ISBN").HasMaxLength(17);
+                entity.Property(e => e.AnoPublicacao).HasColumnName("ANOPUBLICACAO");
+                entity.Property(e => e.Editora).HasColumnName("EDITORA").HasMaxLength(200);
+                entity.Property(e => e.Genero).HasColumnName("GENERO").HasMaxLength(100);
+                entity.Property(e => e.NumeroPaginas).HasColumnName("PAGINAS");
+                entity.Property(e => e.Idioma).HasColumnName("IDIOMA").HasMaxLength(50);
+                entity.Property(e => e.Sinopse).HasColumnName("DESCRICAO");
+                entity.Property(e => e.CapaUrl).HasColumnName("CAPAURL").HasMaxLength(500);
                 entity.Property(e => e.Preco).HasColumnName("PRECO").HasColumnType("NUMBER(10,2)");
-                entity.Property(e => e.EstoqueDisponivel).HasColumnName("ESTOQUE_DISPONIVEL");
-                entity.Property(e => e.EstoqueTotal).HasColumnName("ESTOQUE_TOTAL");
-                entity.Property(e => e.Ativo).HasColumnName("ATIVO").HasDefaultValue(1);
-                entity.Property(e => e.DataCriacao).HasColumnName("DATA_CRIACAO").IsRequired();
-                entity.Property(e => e.DataAtualizacao).HasColumnName("DATA_ATUALIZACAO");
+                entity.Property(e => e.EstoqueDisponivel).HasColumnName("ESTOQUE");
+                entity.Property(e => e.Ativo)
+                    .HasColumnName("DISPONIVEL")
+                    .HasDefaultValue(1)
+                    .HasConversion(
+                        v => v ? 1 : 0,
+                        v => v == 1
+                    );
+                entity.Property(e => e.DataCriacao).HasColumnName("CREATEDAT").IsRequired();
+                entity.Property(e => e.DataAtualizacao).HasColumnName("UPDATEDAT");
 
-                // Relacionamento com Empréstimo (1:N)
                 entity.HasMany(l => l.Emprestimos)
                       .WithOne(e => e.Livro)
                       .HasForeignKey(e => e.LivroId)
                       .OnDelete(DeleteBehavior.Restrict);
                       
-                // Índice para melhorar performance
                 entity.HasIndex(e => e.AutorId);
                 entity.HasIndex(e => e.ISBN);
             });
 
-            // Configuração da entidade Emprestimo (Relação 1:N com Livro)
             modelBuilder.Entity<Emprestimo>(entity =>
             {
-                entity.ToTable("TB_EMPRESTIMOS");
+                entity.ToTable("EMPRESTIMOS");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("ID_EMPRESTIMO").ValueGeneratedOnAdd();
-                entity.Property(e => e.LivroId).HasColumnName("ID_LIVRO").IsRequired();
-                entity.Property(e => e.NomeUsuario).HasColumnName("NOME_USUARIO").IsRequired().HasMaxLength(100);
-                entity.Property(e => e.CpfUsuario).HasColumnName("CPF_USUARIO").IsRequired().HasMaxLength(14);
-                entity.Property(e => e.EmailUsuario).HasColumnName("EMAIL_USUARIO").IsRequired().HasMaxLength(100);
-                entity.Property(e => e.TelefoneUsuario).HasColumnName("TELEFONE_USUARIO").HasMaxLength(20);
-                entity.Property(e => e.DataEmprestimo).HasColumnName("DATA_EMPRESTIMO").IsRequired();
-                entity.Property(e => e.DataDevolucaoPrevista).HasColumnName("DATA_DEVOLUCAO_PREVISTA").IsRequired();
-                entity.Property(e => e.DataDevolucaoReal).HasColumnName("DATA_DEVOLUCAO_REAL");
-                entity.Property(e => e.Devolvido).HasColumnName("DEVOLVIDO").HasDefaultValue(0);
-                entity.Property(e => e.MultaAtraso).HasColumnName("MULTA_ATRASO").HasColumnType("NUMBER(10,2)");
-                entity.Property(e => e.Observacoes).HasColumnName("OBSERVACOES").HasMaxLength(500);
+                entity.Property(e => e.Id).HasColumnName("ID").ValueGeneratedOnAdd();
+                entity.Property(e => e.LivroId).HasColumnName("LIVROID").IsRequired();
+                entity.Property(e => e.NomeUsuario).HasColumnName("NOMEUSUARIO").IsRequired().HasMaxLength(200);
+                entity.Property(e => e.EmailUsuario).HasColumnName("EMAILUSUARIO").IsRequired().HasMaxLength(255);
+                entity.Property(e => e.TelefoneUsuario).HasColumnName("TELEFONEUSUARIO").HasMaxLength(20);
+                entity.Property(e => e.DataEmprestimo).HasColumnName("DATAEMPRESTIMO").IsRequired();
+                entity.Property(e => e.DataDevolucaoPrevista).HasColumnName("DATAPREVISTADEVOLUCAO").IsRequired();
+                entity.Property(e => e.DataDevolucaoReal).HasColumnName("DATADEVOLUCAO");
+                entity.Property(e => e.MultaAtraso).HasColumnName("MULTACALCULADA").HasColumnType("NUMBER(10,2)");
+                entity.Property(e => e.Observacoes).HasColumnName("OBSERVACOES").HasMaxLength(1000);
                 entity.Property(e => e.Status).HasColumnName("STATUS").HasMaxLength(20).HasDefaultValue("Ativo");
-                entity.Property(e => e.DataCriacao).HasColumnName("DATA_CRIACAO").IsRequired();
-                entity.Property(e => e.DataAtualizacao).HasColumnName("DATA_ATUALIZACAO");
+                entity.Property(e => e.DataCriacao).HasColumnName("CREATEDAT").IsRequired();
+                entity.Property(e => e.DataAtualizacao).HasColumnName("UPDATEDAT");
                 
-                // Índices para melhorar performance
                 entity.HasIndex(e => e.LivroId);
-                entity.HasIndex(e => e.CpfUsuario);
             });
-
-            // Seed data para demonstração da API
-            SeedData(modelBuilder);
         }
 
         private void SeedData(ModelBuilder modelBuilder)
@@ -283,7 +271,7 @@ namespace BibliotecaDigital.Data.Context
                     TelefoneUsuario = "(11) 98765-4321",
                     DataEmprestimo = DateTime.UtcNow.AddDays(-10),
                     DataDevolucaoPrevista = DateTime.UtcNow.AddDays(5),
-                    Devolvido = false,
+                    // Devolvido é calculado automaticamente
                     Status = "Ativo",
                     DataCriacao = DateTime.UtcNow
                 },
@@ -297,7 +285,7 @@ namespace BibliotecaDigital.Data.Context
                     TelefoneUsuario = "(11) 91234-5678",
                     DataEmprestimo = DateTime.UtcNow.AddDays(-5),
                     DataDevolucaoPrevista = DateTime.UtcNow.AddDays(10),
-                    Devolvido = false,
+                    // Devolvido é calculado automaticamente
                     Status = "Ativo",
                     DataCriacao = DateTime.UtcNow
                 },
@@ -311,8 +299,8 @@ namespace BibliotecaDigital.Data.Context
                     TelefoneUsuario = "(11) 95555-1111",
                     DataEmprestimo = DateTime.UtcNow.AddDays(-20),
                     DataDevolucaoPrevista = DateTime.UtcNow.AddDays(-5),
-                    DataDevolucaoReal = DateTime.UtcNow.AddDays(-3),
-                    Devolvido = true,
+                    DataDevolucaoReal = DateTime.UtcNow.AddDays(-3), // Com data = Devolvido fica true
+                    // Devolvido é calculado automaticamente
                     MultaAtraso = 5.00m,
                     Status = "Finalizado",
                     Observacoes = "Devolvido com 2 dias de atraso",
