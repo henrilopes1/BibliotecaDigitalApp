@@ -655,3 +655,6 @@ export AzureStorage__ConnectionString="DefaultEndpointsProtocol=https;AccountNam
 6. **Acesse**: http://localhost:5219/swagger
 
 ---
+## Grupo:
+Victor Flávio Demarchi Viana – RM99389 
+Henri de Oliveira Lopes - RM98347
