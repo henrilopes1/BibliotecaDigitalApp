@@ -656,5 +656,5 @@ export AzureStorage__ConnectionString="DefaultEndpointsProtocol=https;AccountNam
 
 ---
 ## Grupo:
-Victor Flávio Demarchi Viana – RM99389 
-Henri de Oliveira Lopes - RM98347
+- Victor Flávio Demarchi Viana – RM99389 
+- Henri de Oliveira Lopes - RM98347
